@@ -4,7 +4,7 @@
 # Desktop Mode. The application to manage windows is Yad.
 # @author 	César Rodríguez González
 # @since 		1.3, 2016-11-14
-# @version 	1.3.3, 2017-03-23
+# @version 	1.3.3, 2017-05-04
 # @license 	MIT
 ##########################################################################
 
@@ -94,13 +94,12 @@ function getApplicationOptions
 function getApplicationsWindow
 {
 	local applicationArray=(${!1}) categoryName="$2" key=$3 categoryNumber=$4
- 	local formattedText="<span font='$fontFamilyText $fontSmallSize'>$selectAppsToInstallCurrentCategory</span>"
 	# Set first row: ALL applications
 	local appRows="false \"[$all]\" \"\" \"\" "
 	# Set rest of rows. One per aplication
 	appRows+=$( getApplicationOptions applicationArray[@] "$categoryName" )
 	# Create yad window (desktop mode)
-	window="yad --plug=$key --tabnum=$categoryNumber --text \"$formattedText\" --list --checklist --column \"\" --column \"$nameLabel\" --column \"$descriptionLabel\" --column \"$observationLabel\" $appRows"
+	window="yad --plug=$key --tabnum=$categoryNumber --list --checklist --column \"\" --column \"$nameLabel\" --column \"$descriptionLabel\" --column \"$observationLabel\" $appRows"
  	echo "$window"
 }
 
@@ -251,15 +250,14 @@ function menu
 {
 	# Array of categories from appListFile of your distro. Delete blank and comment lines. Take category list (first column) and remove duplicated rows in appListFile content.
 	local categoryArray=(`cat "$appListFile" | awk -F ',' '!/^($|#|,)/{ print $1; }' | uniq | sort`)
-	local formattedText="<span font='$fontFamilyText $fontBigSize'>$installerTitle</span>"
-	formattedText+="\n\n<span font='$fontFamilyText $fontSmallSize'>$scriptDescription</span>"
+	local formattedText+="<span font='$fontFamilyText $fontSmallSize'>    $scriptDescription\n    $selectAppsToInstallCurrentCategory</span>"
 
 	local exitMainWindow="false"
 	while [ "$exitMainWindow" == "false" ]; do
 		pkill yad*
 		local categoryNumber=1 key=$RANDOM maxApplicationNumber=0 categoryDescription applicationArray totalApplicationNumber
 		local window="yad --notebook --key=$key --title=\"$installerTitle\" --text=\"$formattedText\""
-		window+=" --image=\"$installerIconFolder/yad-tux-shell-console96.png\" --image-on-top"
+		window+=" --image=\"$installerIconFolder/yad-tux-shell-console64.png\" --image-on-top"
 		window+=" --button=\"!/$installerIconFolder/facebook32.png:4\" --button=\"!/$installerIconFolder/www32.png:3\" --button=\"!/$installerIconFolder/octocat32.png:2\" --button=\"!/$installerIconFolder/door32.png:1\" --button=\"!/$installerIconFolder/next32.png:0\""
 		window+=" --window-icon=\"$installerIconFolder/tux-shell-console32.png\""
 

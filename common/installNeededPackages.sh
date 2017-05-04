@@ -4,7 +4,7 @@
 # of the menu and installation process
 # @author 	César Rodríguez González
 # @since 		1.3.3, 2017-04-25
-# @version 	1.3.3, 2017-04-25
+# @version 	1.3.3, 2017-05-04
 # @license 	MIT
 ##########################################################################
 
@@ -52,7 +52,7 @@ function tryToInstallYad
 if [ -z "$DISPLAY" ]; then
 	neededPackages+=( dialog tmux )
 else
-	neededPackages+=( libnotify-bin xterm )
+	neededPackages+=( libnotify-bin xterm xdg-utils )
 	tryToInstallYad
 	if [ -z "`dpkg -s yad 2>&1 | grep "Status: install ok installed"`" ]; then
     neededPackages+=( zenity )
